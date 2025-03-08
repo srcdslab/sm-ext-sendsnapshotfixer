@@ -37,12 +37,14 @@
  * @brief Contains macros for configuring basic extension information.
  */
 
-/* Basic information exposed publicly */
+#include "version.h"
+
+ /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"SendSnapshotFixer"
 #define SMEXT_CONF_DESCRIPTION	"Fixes the currently messed up sv_parallel_sendsnapshot"
-#define SMEXT_CONF_VERSION		"1.0.1"
+#define SMEXT_CONF_VERSION		SM_FULL_VERSION
 #define SMEXT_CONF_AUTHOR		"maxime1907"
-#define SMEXT_CONF_URL			"https://gitlab.com/counterstrikesource/sendsnapshotfixer"
+#define SMEXT_CONF_URL			"https://github.com/srcdslab/sm-ext-sendsnapshotfixer"
 #define SMEXT_CONF_LOGTAG		"SSF"
 #define SMEXT_CONF_LICENSE		"GPL"
 #define SMEXT_CONF_DATESTRING	__DATE__
