@@ -30,7 +30,7 @@
  */
 
 #include "extension.h"
-#include "extensionHelper.h"
+#include "convarhelper.h"
 #include "CDetour/detours.h"
 #include <sourcehook.h>
 #include <iclient.h>
@@ -67,7 +67,7 @@ ConVar *g_sv_multiplayer_maxtempentities = CreateConVar("sv_multiplayer_maxtempe
 
 DETOUR_DECL_MEMBER2(CFrameSnapshot__CreateEmptySnapshot, CFrameSnapshot *, int, tickcount, int, maxEntities )
 {
-	AUTO_LOCK_FM(m_FrameSnapshotsWriteMutex);
+	AUTO_LOCK(m_FrameSnapshotsWriteMutex);
 	
 	CFrameSnapshot* snap = DETOUR_MEMBER_CALL(CFrameSnapshot__CreateEmptySnapshot)(tickcount, maxEntities);
 
@@ -81,7 +81,7 @@ DETOUR_DECL_MEMBER2(CFrameSnapshot__CreateEmptySnapshot, CFrameSnapshot *, int, 
 
 DETOUR_DECL_MEMBER0(CFrameSnapshot__ReleaseReference, void)
 {
-	AUTO_LOCK_FM(m_FrameSnapshotsWriteMutex);
+	AUTO_LOCK(m_FrameSnapshotsWriteMutex);
 	
 	DETOUR_MEMBER_CALL(CFrameSnapshot__ReleaseReference)();
 }
@@ -95,7 +95,7 @@ DETOUR_DECL_MEMBER5(CBaseServer__WriteTempEntities, void, CBaseClient *, client,
 		ev_max = client->GetServer()->IsMultiplayer() ? g_sv_multiplayer_maxtempentities->GetInt() : 255;
 	}
 
-	AUTO_LOCK_FM(m_FrameSnapshotsWriteMutex);
+	AUTO_LOCK(m_FrameSnapshotsWriteMutex);
 
 	DETOUR_MEMBER_CALL(CBaseServer__WriteTempEntities)(client, pCurrentSnapshot, pLastSnapshot, buf, ev_max);
 }
