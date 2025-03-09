@@ -1,4 +1,4 @@
-name: Build AlliedModders extension
+name: Build AlliedModders Extension
 
 on:
   push:
@@ -13,77 +13,7 @@ on:
       - main
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os:
-          - ubuntu-20.04
-          - windows-2022
-        include:
-          - os: ubuntu-20.04
-            cc: clang-10
-            cxx: clang++-10
-          - os: windows-2022
-            cc: msvc
-            cxx: msvc
-      fail-fast: false
-    name: ${{ matrix.os }} - ${{ matrix.cc }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Build extension
-        uses: srcdslab/action-ambuild@v1
-        id: ambuild
-        with:
-          os: ${{ matrix.os }}
-          cc: ${{ matrix.cc }}
-          cxx: ${{ matrix.cxx }}
-          ambuild-ref: 'master'
-          mm-ref: '1.12-dev'
-          sm-ref: '1.12-dev'
-          hl2sdk-manifests-ref: 'master'
-          sdks: 'css'
-          configure-path: '../sm-ext-common/configure.py'
-          configure-additional-flags: '--enable-optimize --enable-auto-versioning --ext-root "../"'
-
-      - name: Upload package
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ runner.os }}
-          path: ${{ steps.ambuild.outputs.package-path }}
-          if-no-files-found: error
-          retention-days: 14
-
-  release:
-    name: Github release
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./gh-artifacts
-
-      - name: Package artifacts
-        working-directory: gh-artifacts
-        run: |
-          version=`echo $GITHUB_REF | sed "s/refs\/tags\///"`
-          for platform in *; do
-            if [ -d "./$platform/" ]; then
-              cd "./$platform/"
-              tar -czf "../${{ github.event.repository.name }}-${platform,,}.tar.gz" -T <(ls -1)
-              cd -
-            fi
-          done
-
-      - name: Release packages
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: './gh-artifacts/*.tar.gz'
-          tag: ${{ github.ref }}
-          file_glob: true
+  build-release-extension:
+    uses: srcdslab/ci-workflows/.github/workflows/shared_build_release_am_extension.yml@v1
+    with:
+      sdks: "css"
