@@ -14,18 +14,21 @@
 			{
 				"library"		"engine"
 				"linux"			"@_ZN11CBaseServer17WriteTempEntitiesEP11CBaseClientP14CFrameSnapshotS3_R8bf_writei"
+				"linux64"		"@_ZN11CBaseServer17WriteTempEntitiesEP11CBaseClientP14CFrameSnapshotS3_R8bf_writei"
 			}
 
 			"CFrameSnapshot__ReleaseReference"
 			{
 				"library"		"engine"
 				"linux"			"@_ZN14CFrameSnapshot16ReleaseReferenceEv"
+				"linux64"		"@_ZN14CFrameSnapshot16ReleaseReferenceEv"
 			}
 
 			"CFrameSnapshot__CreateEmptySnapshot"
 			{
 				"library"		"engine"
 				"linux"			"@_ZN21CFrameSnapshotManager19CreateEmptySnapshotEii"
+				"linux64"		"@_ZN21CFrameSnapshotManager19CreateEmptySnapshotEii"
 			}
 		}
 	}
