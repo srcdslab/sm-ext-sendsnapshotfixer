@@ -36,6 +36,31 @@
 				"windows"		"\x55\x8B\xEC\x53\x56\x57\x8B\xD9\xB9\x2A\x2A\x2A\x2A\x6A\x40\xE8\x2A\x2A\x2A\x2A\x8B\xF0\x85\xF6"
 				"windows64"		"\x48\x89\x5C\x24\x08\x48\x89\x6C\x24\x10\x48\x89\x74\x24\x18\x48\x89\x7C\x24\x20\x41\x56\x48\x83\xEC\x20\x8B\xEA\x41\x8B\xF0\x4C\x8B\xF1\xBA\x70\x00\x00\x00\x48\x8D\x0D\x2A\x2A\x2A\x2A"
 			}
+
+			// Packed entity leak fix (optional, linux only for now)
+			"CFrameSnapshotManager__LevelChanged"
+			{
+				"library"		"engine"
+				"linux"			"@_ZN21CFrameSnapshotManager12LevelChangedEv"
+				"linux64"		"@_ZN21CFrameSnapshotManager12LevelChangedEv"
+			}
+
+			"CFrameSnapshotManager__RemoveEntityReference"
+			{
+				"library"		"engine"
+				"linux"			"@_ZN21CFrameSnapshotManager21RemoveEntityReferenceEi"
+				"linux64"		"@_ZN21CFrameSnapshotManager21RemoveEntityReferenceEl"
+			}
+		}
+
+		"Offsets"
+		{
+			// PackedEntityHandle_t m_pPackedData[MAX_EDICTS], memset by CFrameSnapshotManager::LevelChanged
+			"CFrameSnapshotManager__m_pPackedData"
+			{
+				"linux"			"104"
+				"linux64"		"152"
+			}
 		}
 	}
 }
